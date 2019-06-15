@@ -27,13 +27,6 @@ func get_input():
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 
-func spawn_coins():
-	for i in range(4 + level):
-		var c = Coin.instance()
-		$CoinContainer.add_child(c)
-		c.screensize = screensize
-		c.position = Vector2(rand_range(0, screensize.x), 
-		rand_range(0, screensize.y))
 		
 func _process(delta):
 	if playing and $CoinContainer.get_child_count() == 0:
@@ -73,17 +66,3 @@ func _on_Player_area_entered( area ):
 		die()
 
 
-func _on_Player_pickup():
-	score += 1
-	$HUD.update_score(score)
-
-func _on_Player_hurt():
-	game_over()
-	
-func game_over():
-	playing = false
-	$GameTimer.stop()
-	for Coin in $CoinContainer.get_children():
-		Coin.queue_free()
-	$HUD.show_game_over()
-	$Player.die()
